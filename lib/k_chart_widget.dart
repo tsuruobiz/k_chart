@@ -2,11 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:k_chart/flutter_k_chart.dart';
+import 'package:k_chart/utils/language.dart';
+
 import 'chart_style.dart';
 import 'entity/info_window_entity.dart';
 import 'entity/k_line_entity.dart';
 import 'renderer/chart_painter.dart';
 import 'utils/date_format_util.dart';
+import 'utils/language.dart';
 
 enum MainState { MA, BOLL, NONE }
 enum SecondaryState { MACD, KDJ, RSI, WR, NONE }
@@ -32,7 +35,6 @@ class KChartWidget extends StatefulWidget {
   final bool volHidden;
   final SecondaryState secondaryState;
   final bool isLine;
-  final bool isChinese;
   final List<String> timeFormat;
   //当屏幕滚动到尽头会调用，真为拉到屏幕右侧尽头，假为拉到屏幕左侧尽头
   final Function(bool) onLoadMore;
@@ -43,6 +45,7 @@ class KChartWidget extends StatefulWidget {
   final double flingRatio;
   final Curve flingCurve;
   final Function(bool) isOnDrag;
+  final Language language;
 
   KChartWidget(
     this.datas, {
@@ -50,7 +53,7 @@ class KChartWidget extends StatefulWidget {
     this.secondaryState = SecondaryState.MACD,
     this.volHidden = false,
     this.isLine,
-    this.isChinese = true,
+    this.language = Language.chinese,
     this.timeFormat = TimeFormat.YEAR_MONTH_DAY,
     this.onLoadMore,
     this.bgColor,
@@ -230,26 +233,6 @@ class _KChartWidgetState extends State<KChartWidget>
 
   void notifyChanged() => setState(() {});
 
-  final List<String> infoNamesCN = [
-    "时间",
-    "开",
-    "高",
-    "低",
-    "收",
-    "涨跌额",
-    "涨跌幅",
-    "成交额"
-  ];
-  final List<String> infoNamesEN = [
-    "Date",
-    "Open",
-    "High",
-    "Low",
-    "Close",
-    "Change",
-    "Change%",
-    "Amount"
-  ];
   List<String> infos;
 
   Widget _buildInfoDialog() {
@@ -284,12 +267,14 @@ class _KChartWidgetState extends State<KChartWidget>
                     color: ChartColors.selectBorderColor, width: 0.5)),
             child: ListView.builder(
               padding: EdgeInsets.all(4),
-              itemCount: infoNamesCN.length,
+              itemCount: widget.language.infoNames.length,
               itemExtent: 14.0,
               shrinkWrap: true,
               itemBuilder: (context, index) {
-                return _buildItem(infos[index],
-                    widget.isChinese ? infoNamesCN[index] : infoNamesEN[index]);
+                return _buildItem(
+                  infos[index],
+                  widget.language.infoNames[index],
+                );
               },
             ),
           );

@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
 import 'package:k_chart/flutter_k_chart.dart';
 import 'package:k_chart/k_chart_widget.dart';
-import 'package:http/http.dart' as http;
 
 void main() => runApp(MyApp());
 
@@ -36,8 +36,8 @@ class _MyHomePageState extends State<MyHomePage> {
   MainState _mainState = MainState.MA;
   bool _volHidden = false;
   SecondaryState _secondaryState = SecondaryState.MACD;
-  bool isLine = true;
-  bool isChinese = true;
+  bool isLine = false;
+  bool isChinese = false;
   List<DepthEntity> _bids, _asks;
 
   @override
@@ -102,7 +102,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 secondaryState: _secondaryState,
                 fixedLength: 2,
                 timeFormat: TimeFormat.YEAR_MONTH_DAY,
-                isChinese: isChinese,
+                language: Language.japanese,
               ),
             ),
             if (showLoading)
@@ -137,7 +137,8 @@ class _MyHomePageState extends State<MyHomePage> {
         button("RSI", onPressed: () => _secondaryState = SecondaryState.RSI),
         button("WR", onPressed: () => _secondaryState = SecondaryState.WR),
         button("隐藏副视图", onPressed: () => _secondaryState = SecondaryState.NONE),
-        button(_volHidden ? "显示成交量" : "隐藏成交量", onPressed: () => _volHidden = !_volHidden),
+        button(_volHidden ? "显示成交量" : "隐藏成交量",
+            onPressed: () => _volHidden = !_volHidden),
         button("切换中英文", onPressed: () => isChinese = !isChinese),
       ],
     );
