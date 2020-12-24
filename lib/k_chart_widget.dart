@@ -46,6 +46,8 @@ class KChartWidget extends StatefulWidget {
   final Curve flingCurve;
   final Function(bool) isOnDrag;
   final Language language;
+  final Color upColor;
+  final Color dnColor;
 
   KChartWidget(
     this.datas, {
@@ -63,6 +65,8 @@ class KChartWidget extends StatefulWidget {
     this.flingRatio = 0.5,
     this.flingCurve = Curves.decelerate,
     this.isOnDrag,
+    this.upColor,
+    this.dnColor,
   }) : assert(maDayList != null);
 
   @override
@@ -160,19 +164,22 @@ class _KChartWidgetState extends State<KChartWidget>
           CustomPaint(
             size: Size(double.infinity, double.infinity),
             painter: ChartPainter(
-                datas: widget.datas,
-                scaleX: mScaleX,
-                scrollX: mScrollX,
-                selectX: mSelectX,
-                isLongPass: isLongPress,
-                mainState: widget.mainState,
-                volHidden: widget.volHidden,
-                secondaryState: widget.secondaryState,
-                isLine: widget.isLine,
-                sink: mInfoWindowStream?.sink,
-                bgColor: widget.bgColor,
-                fixedLength: widget.fixedLength,
-                maDayList: widget.maDayList),
+              datas: widget.datas,
+              scaleX: mScaleX,
+              scrollX: mScrollX,
+              selectX: mSelectX,
+              isLongPass: isLongPress,
+              mainState: widget.mainState,
+              volHidden: widget.volHidden,
+              secondaryState: widget.secondaryState,
+              isLine: widget.isLine,
+              sink: mInfoWindowStream?.sink,
+              bgColor: widget.bgColor,
+              fixedLength: widget.fixedLength,
+              maDayList: widget.maDayList,
+              upColor: widget.upColor,
+              dnColor: widget.dnColor,
+            ),
           ),
           _buildInfoDialog()
         ],

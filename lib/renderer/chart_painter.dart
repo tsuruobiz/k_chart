@@ -2,10 +2,10 @@ import 'dart:async' show StreamSink;
 
 import 'package:flutter/material.dart';
 import 'package:k_chart/utils/number_util.dart';
+
+import '../entity/info_window_entity.dart';
 import '../entity/k_line_entity.dart';
 import '../utils/date_format_util.dart';
-import '../entity/info_window_entity.dart';
-
 import 'base_chart_painter.dart';
 import 'base_chart_renderer.dart';
 import 'main_renderer.dart';
@@ -24,21 +24,23 @@ class ChartPainter extends BaseChartPainter {
   int fixedLength;
   List<int> maDayList;
 
-  ChartPainter(
-      {@required datas,
-      @required scaleX,
-      @required scrollX,
-      @required isLongPass,
-      @required selectX,
-      mainState,
-      volHidden,
-      secondaryState,
-      this.sink,
-      bool isLine,
-      this.bgColor,
-      this.fixedLength,
-      this.maDayList})
-      : assert(bgColor == null || bgColor.length >= 2),
+  ChartPainter({
+    @required datas,
+    @required scaleX,
+    @required scrollX,
+    @required isLongPass,
+    @required selectX,
+    mainState,
+    volHidden,
+    secondaryState,
+    this.sink,
+    bool isLine,
+    this.bgColor,
+    this.fixedLength,
+    this.maDayList,
+    this.upColor,
+    this.dnColor,
+  })  : assert(bgColor == null || bgColor.length >= 2),
         super(
             datas: datas,
             scaleX: scaleX,
@@ -61,20 +63,40 @@ class ChartPainter extends BaseChartPainter {
             NumberUtil.getMaxDecimalLength(t.open, t.close, t.high, t.low);
       }
     }
-    mMainRenderer ??= MainRenderer(mMainRect, mMainMaxValue, mMainMinValue,
-        mTopPadding, mainState, isLine, fixedLength, maDayList);
+    mMainRenderer ??= MainRenderer(
+      mMainRect,
+      mMainMaxValue,
+      mMainMinValue,
+      mTopPadding,
+      mainState,
+      isLine,
+      fixedLength,
+      maDayList,
+      upColor,
+      dnColor,
+    );
     if (mVolRect != null) {
       mVolRenderer ??= VolRenderer(
-          mVolRect, mVolMaxValue, mVolMinValue, mChildPadding, fixedLength);
+        mVolRect,
+        mVolMaxValue,
+        mVolMinValue,
+        mChildPadding,
+        fixedLength,
+        upColor: upColor,
+        dnColor: dnColor,
+      );
     }
     if (mSecondaryRect != null)
       mSecondaryRenderer ??= SecondaryRenderer(
-          mSecondaryRect,
-          mSecondaryMaxValue,
-          mSecondaryMinValue,
-          mChildPadding,
-          secondaryState,
-          fixedLength);
+        mSecondaryRect,
+        mSecondaryMaxValue,
+        mSecondaryMinValue,
+        mChildPadding,
+        secondaryState,
+        fixedLength,
+        upColor: upColor,
+        dnColor: dnColor,
+      );
   }
 
   @override

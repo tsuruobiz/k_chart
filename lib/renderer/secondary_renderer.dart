@@ -1,18 +1,28 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+
+import '../chart_style.dart';
 import '../entity/macd_entity.dart';
 import '../k_chart_widget.dart' show SecondaryState;
-
 import 'base_chart_renderer.dart';
 
 class SecondaryRenderer extends BaseChartRenderer<MACDEntity> {
   double mMACDWidth = ChartStyle.macdWidth;
   SecondaryState state;
+  Color upColor;
+  Color dnColor;
 
-  SecondaryRenderer(Rect mainRect, double maxValue, double minValue,
-      double topPadding, this.state, int fixedLength)
-      : super(
+  SecondaryRenderer(
+    Rect mainRect,
+    double maxValue,
+    double minValue,
+    double topPadding,
+    this.state,
+    int fixedLength, {
+    this.upColor = ChartColors.upColor,
+    this.dnColor = ChartColors.upColor,
+  }) : super(
             chartRect: mainRect,
             maxValue: maxValue,
             minValue: minValue,
@@ -24,7 +34,7 @@ class SecondaryRenderer extends BaseChartRenderer<MACDEntity> {
       double curX, Size size, Canvas canvas) {
     switch (state) {
       case SecondaryState.MACD:
-        drawMACD(curPoint, canvas, curX, lastPoint, lastX);
+        drawMACD(curPoint, canvas, curX, lastPoint, lastX, upColor, dnColor);
         break;
       case SecondaryState.KDJ:
         drawLine(
@@ -48,16 +58,16 @@ class SecondaryRenderer extends BaseChartRenderer<MACDEntity> {
   }
 
   void drawMACD(MACDEntity curPoint, Canvas canvas, double curX,
-      MACDEntity lastPoint, double lastX) {
+      MACDEntity lastPoint, double lastX, Color upColor, Color dnColor) {
     double macdY = getY(curPoint.macd);
     double r = mMACDWidth / 2;
     double zeroy = getY(0);
     if (curPoint.macd > 0) {
       canvas.drawRect(Rect.fromLTRB(curX - r, macdY, curX + r, zeroy),
-          chartPaint..color = ChartColors.upColor);
+          chartPaint..color = upColor);
     } else {
       canvas.drawRect(Rect.fromLTRB(curX - r, zeroy, curX + r, macdY),
-          chartPaint..color = ChartColors.dnColor);
+          chartPaint..color = dnColor);
     }
     if (lastPoint.dif != 0) {
       drawLine(lastPoint.dif, curPoint.dif, canvas, lastX, curX,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../entity/candle_entity.dart';
 import '../k_chart_widget.dart' show MainState;
 import 'base_chart_renderer.dart';
@@ -12,11 +13,21 @@ class MainRenderer extends BaseChartRenderer<CandleEntity> {
   Rect _contentRect;
   double _contentPadding = 5.0;
   List<int> maDayList;
+  Color upColor;
+  Color dnColor;
 
-  MainRenderer(Rect mainRect, double maxValue, double minValue,
-      double topPadding, this.state, this.isLine, int fixedLength,
-      [this.maDayList = const [5, 10, 20]])
-      : super(
+  MainRenderer(
+    Rect mainRect,
+    double maxValue,
+    double minValue,
+    double topPadding,
+    this.state,
+    this.isLine,
+    int fixedLength, [
+    this.maDayList = const [5, 10, 20],
+    this.upColor = ChartColors.upColor,
+    this.dnColor = ChartColors.dnColor,
+  ]) : super(
             chartRect: mainRect,
             maxValue: maxValue,
             minValue: minValue,
@@ -83,7 +94,7 @@ class MainRenderer extends BaseChartRenderer<CandleEntity> {
   void drawChart(CandleEntity lastPoint, CandleEntity curPoint, double lastX,
       double curX, Size size, Canvas canvas) {
     if (isLine != true) {
-      drawCandle(curPoint, canvas, curX);
+      drawCandle(curPoint, canvas, curX, upColor, dnColor);
     }
     if (isLine == true) {
       drawPolyline(lastPoint.close, curPoint.close, canvas, lastX, curX);
@@ -178,7 +189,13 @@ class MainRenderer extends BaseChartRenderer<CandleEntity> {
     }
   }
 
-  void drawCandle(CandleEntity curPoint, Canvas canvas, double curX) {
+  void drawCandle(
+    CandleEntity curPoint,
+    Canvas canvas,
+    double curX,
+    Color upColor,
+    Color dnColor,
+  ) {
     var high = getY(curPoint.high);
     var low = getY(curPoint.low);
     var open = getY(curPoint.open);
@@ -186,19 +203,19 @@ class MainRenderer extends BaseChartRenderer<CandleEntity> {
     double r = mCandleWidth / 2;
     double lineR = mCandleLineWidth / 2;
     if (open > close) {
-      chartPaint.color = ChartColors.upColor;
+      chartPaint.color = upColor;
       canvas.drawRect(
           Rect.fromLTRB(curX - r, close, curX + r, open), chartPaint);
       canvas.drawRect(
           Rect.fromLTRB(curX - lineR, high, curX + lineR, low), chartPaint);
     } else if (close > open) {
-      chartPaint.color = ChartColors.dnColor;
+      chartPaint.color = dnColor;
       canvas.drawRect(
           Rect.fromLTRB(curX - r, open, curX + r, close), chartPaint);
       canvas.drawRect(
           Rect.fromLTRB(curX - lineR, high, curX + lineR, low), chartPaint);
     } else {
-      chartPaint.color = ChartColors.upColor;
+      chartPaint.color = upColor;
       canvas.drawLine(
           Offset(curX - r, open), Offset(curX + r, open), chartPaint);
       if (high != low) {

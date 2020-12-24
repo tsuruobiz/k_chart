@@ -103,6 +103,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 fixedLength: 2,
                 timeFormat: TimeFormat.YEAR_MONTH_DAY,
                 language: Language.japanese,
+                upColor: Colors.red,
+                dnColor: Colors.blueAccent,
               ),
             ),
             if (showLoading)

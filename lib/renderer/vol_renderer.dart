@@ -1,16 +1,25 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+
 import '../entity/volume_entity.dart';
 import '../renderer/base_chart_renderer.dart';
 import '../utils/number_util.dart';
 
 class VolRenderer extends BaseChartRenderer<VolumeEntity> {
   double mVolWidth = ChartStyle.volWidth;
+  Color upColor;
+  Color dnColor;
 
-  VolRenderer(Rect mainRect, double maxValue, double minValue,
-      double topPadding, int fixedLength)
-      : super(
+  VolRenderer(
+    Rect mainRect,
+    double maxValue,
+    double minValue,
+    double topPadding,
+    int fixedLength, {
+    this.upColor = ChartColors.upColor,
+    this.dnColor = ChartColors.dnColor,
+  }) : super(
             chartRect: mainRect,
             maxValue: maxValue,
             minValue: minValue,
@@ -27,9 +36,7 @@ class VolRenderer extends BaseChartRenderer<VolumeEntity> {
       canvas.drawRect(
           Rect.fromLTRB(curX - r, top, curX + r, bottom),
           chartPaint
-            ..color = curPoint.close > curPoint.open
-                ? ChartColors.upColor
-                : ChartColors.dnColor);
+            ..color = curPoint.close > curPoint.open ? upColor : dnColor);
     }
 
     if (lastPoint.MA5Volume != 0) {
