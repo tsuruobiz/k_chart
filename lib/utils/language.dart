@@ -39,7 +39,7 @@ extension LanguageEx on Language {
           "日付",
           "始値",
           "高値",
-          "低値",
+          "安値",
           "終値",
           "前日比額",
           "前日比率",
