@@ -48,6 +48,7 @@ class KChartWidget extends StatefulWidget {
   final Language language;
   final Color upColor;
   final Color dnColor;
+  final Color chartCrossLineColor;
 
   KChartWidget(
     this.datas, {
@@ -67,6 +68,7 @@ class KChartWidget extends StatefulWidget {
     this.isOnDrag,
     this.upColor,
     this.dnColor,
+    this.chartCrossLineColor,
   }) : assert(maDayList != null);
 
   @override
@@ -179,6 +181,7 @@ class _KChartWidgetState extends State<KChartWidget>
               maDayList: widget.maDayList,
               upColor: widget.upColor,
               dnColor: widget.dnColor,
+              chartCrossLineColor: widget.chartCrossLineColor,
             ),
           ),
           _buildInfoDialog()

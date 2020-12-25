@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:k_chart/chart_style.dart';
 import 'package:k_chart/flutter_k_chart.dart';
 import 'package:k_chart/k_chart_widget.dart';
 
@@ -105,6 +106,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 language: Language.japanese,
                 upColor: Colors.red,
                 dnColor: Colors.blueAccent,
+                bgColor: [
+                  Colors.white.withOpacity(.5),
+                  Colors.white.withOpacity(.5),
+                ],
+                chartCrossLineColor: ChartColors.selectFillColor,
               ),
             ),
             if (showLoading)

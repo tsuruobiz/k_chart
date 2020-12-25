@@ -20,6 +20,7 @@ class ChartPainter extends BaseChartPainter {
   Color ma5Color, ma10Color, ma30Color;
   Color volColor;
   Color macdColor, difColor, deaColor, jColor;
+  Color chartCrossLineColor;
   List<Color> bgColor;
   int fixedLength;
   List<int> maDayList;
@@ -40,6 +41,7 @@ class ChartPainter extends BaseChartPainter {
     this.maDayList,
     this.upColor,
     this.dnColor,
+    this.chartCrossLineColor,
   })  : assert(bgColor == null || bgColor.length >= 2),
         super(
             datas: datas,
@@ -158,7 +160,8 @@ class ChartPainter extends BaseChartPainter {
           lastPoint, curPoint, lastX, curX, size, canvas);
     }
 
-    if (isLongPress == true) drawCrossLine(canvas, size);
+    if (isLongPress == true)
+      drawCrossLine(canvas, size, color: chartCrossLineColor);
     canvas.restore();
   }
 
@@ -292,41 +295,44 @@ class ChartPainter extends BaseChartPainter {
   }
 
   @override
-  void drawMaxAndMin(Canvas canvas) {
+  void drawMaxAndMin(Canvas canvas, {Color color = Colors.white}) {
     if (isLine == true) return;
     //绘制最大值和最小值
     double x = translateXtoX(getX(mMainMinIndex));
     double y = getMainY(mMainLowMinValue);
+    // TODO(tsuruoka): min
     if (x < mWidth / 2) {
       //画右边
       TextPainter tp = getTextPainter(
-          "── " + mMainLowMinValue.toStringAsFixed(fixedLength), Colors.white);
+          "── " + mMainLowMinValue.toStringAsFixed(fixedLength), color);
       tp.paint(canvas, Offset(x, y - tp.height / 2));
     } else {
       TextPainter tp = getTextPainter(
-          mMainLowMinValue.toStringAsFixed(fixedLength) + " ──", Colors.white);
+          mMainLowMinValue.toStringAsFixed(fixedLength) + " ──", color);
       tp.paint(canvas, Offset(x - tp.width, y - tp.height / 2));
     }
     x = translateXtoX(getX(mMainMaxIndex));
     y = getMainY(mMainHighMaxValue);
+    // TODO(tsuruoka): max
     if (x < mWidth / 2) {
       //画右边
       TextPainter tp = getTextPainter(
-          "── " + mMainHighMaxValue.toStringAsFixed(fixedLength), Colors.white);
+          "── " + mMainHighMaxValue.toStringAsFixed(fixedLength), color);
       tp.paint(canvas, Offset(x, y - tp.height / 2));
     } else {
       TextPainter tp = getTextPainter(
-          mMainHighMaxValue.toStringAsFixed(fixedLength) + " ──", Colors.white);
+          mMainHighMaxValue.toStringAsFixed(fixedLength) + " ──", color);
       tp.paint(canvas, Offset(x - tp.width, y - tp.height / 2));
     }
   }
 
   ///画交叉线
-  void drawCrossLine(Canvas canvas, Size size) {
+  void drawCrossLine(Canvas canvas, Size size, {Color color}) {
     var index = calculateSelectedX(selectX);
     KLineEntity point = getItem(index);
+    // selected vertical cross Color
     Paint paintY = Paint()
-      ..color = Colors.white12
+      ..color = color == null ? Colors.white12 : color.withOpacity(.15)
       ..strokeWidth = ChartStyle.vCrossWidth
       ..isAntiAlias = true;
     double x = getX(index);
@@ -336,7 +342,8 @@ class ChartPainter extends BaseChartPainter {
         Offset(x, size.height - mBottomPadding), paintY);
 
     Paint paintX = Paint()
-      ..color = Colors.white
+      // selected horizontal cross Color
+      ..color = color ?? Colors.white
       ..strokeWidth = ChartStyle.hCrossWidth
       ..isAntiAlias = true;
     // k线图横线
