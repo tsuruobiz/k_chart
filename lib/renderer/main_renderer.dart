@@ -15,6 +15,7 @@ class MainRenderer extends BaseChartRenderer<CandleEntity> {
   List<int> maDayList;
   Color upColor;
   Color dnColor;
+  Color gridLineColor;
 
   MainRenderer(
     Rect mainRect,
@@ -27,6 +28,7 @@ class MainRenderer extends BaseChartRenderer<CandleEntity> {
     this.maDayList = const [5, 10, 20],
     this.upColor = ChartColors.upColor,
     this.dnColor = ChartColors.dnColor,
+    this.gridLineColor,
   ]) : super(
             chartRect: mainRect,
             maxValue: maxValue,
@@ -249,6 +251,9 @@ class MainRenderer extends BaseChartRenderer<CandleEntity> {
   void drawGrid(Canvas canvas, int gridRows, int gridColumns) {
 //    final int gridRows = 4, gridColumns = 4;
     double rowSpace = chartRect.height / gridRows;
+    if (gridLineColor != null) {
+      gridPaint.color = gridLineColor;
+    }
     for (int i = 0; i <= gridRows; i++) {
       canvas.drawLine(Offset(0, rowSpace * i + topPadding),
           Offset(chartRect.width, rowSpace * i + topPadding), gridPaint);

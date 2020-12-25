@@ -50,6 +50,7 @@ class KChartWidget extends StatefulWidget {
   final Color dnColor;
   final Color chartCrossLineColor;
   final Color maxAndMinLabelColor;
+  final Color gridLineColor;
 
   KChartWidget(
     this.datas, {
@@ -71,6 +72,7 @@ class KChartWidget extends StatefulWidget {
     this.dnColor,
     this.chartCrossLineColor,
     this.maxAndMinLabelColor,
+    this.gridLineColor,
   }) : assert(maDayList != null);
 
   @override
@@ -185,6 +187,7 @@ class _KChartWidgetState extends State<KChartWidget>
               dnColor: widget.dnColor,
               chartCrossLineColor: widget.chartCrossLineColor,
               maxAndMinLabelColor: widget.maxAndMinLabelColor,
+              gridLineColor: widget.gridLineColor,
             ),
           ),
           _buildInfoDialog()

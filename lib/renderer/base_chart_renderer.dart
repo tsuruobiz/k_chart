@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 export '../chart_style.dart';
 
 abstract class BaseChartRenderer<T> {
@@ -11,7 +12,7 @@ abstract class BaseChartRenderer<T> {
     ..isAntiAlias = true
     ..filterQuality = FilterQuality.high
     ..strokeWidth = 1.0
-    ..color = Colors.red;
+    ..color = Color(0xff4c5c74);
   Paint gridPaint = Paint()
     ..isAntiAlias = true
     ..filterQuality = FilterQuality.high

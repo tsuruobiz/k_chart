@@ -12,6 +12,7 @@ class SecondaryRenderer extends BaseChartRenderer<MACDEntity> {
   SecondaryState state;
   Color upColor;
   Color dnColor;
+  Color gridLineColor;
 
   SecondaryRenderer(
     Rect mainRect,
@@ -22,6 +23,7 @@ class SecondaryRenderer extends BaseChartRenderer<MACDEntity> {
     int fixedLength, {
     this.upColor = ChartColors.upColor,
     this.dnColor = ChartColors.upColor,
+    this.gridLineColor,
   }) : super(
             chartRect: mainRect,
             maxValue: maxValue,
@@ -164,6 +166,9 @@ class SecondaryRenderer extends BaseChartRenderer<MACDEntity> {
 
   @override
   void drawGrid(Canvas canvas, int gridRows, int gridColumns) {
+    if (gridLineColor != null) {
+      gridPaint.color = gridLineColor;
+    }
     canvas.drawLine(Offset(0, chartRect.top),
         Offset(chartRect.width, chartRect.top), gridPaint);
     canvas.drawLine(Offset(0, chartRect.bottom),

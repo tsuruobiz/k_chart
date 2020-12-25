@@ -22,6 +22,7 @@ class ChartPainter extends BaseChartPainter {
   Color macdColor, difColor, deaColor, jColor;
   Color chartCrossLineColor;
   Color maxAndMinLabelColor;
+  Color gridLineColor;
   List<Color> bgColor;
   int fixedLength;
   List<int> maDayList;
@@ -44,6 +45,7 @@ class ChartPainter extends BaseChartPainter {
     this.dnColor,
     this.chartCrossLineColor,
     this.maxAndMinLabelColor = Colors.white,
+    this.gridLineColor,
   })  : assert(bgColor == null || bgColor.length >= 2),
         super(
             datas: datas,
@@ -78,6 +80,7 @@ class ChartPainter extends BaseChartPainter {
       maDayList,
       upColor,
       dnColor,
+      gridLineColor,
     );
     if (mVolRect != null) {
       mVolRenderer ??= VolRenderer(
@@ -88,6 +91,7 @@ class ChartPainter extends BaseChartPainter {
         fixedLength,
         upColor: upColor,
         dnColor: dnColor,
+        gridLineColor: gridLineColor,
       );
     }
     if (mSecondaryRect != null)
@@ -100,6 +104,7 @@ class ChartPainter extends BaseChartPainter {
         fixedLength,
         upColor: upColor,
         dnColor: dnColor,
+        gridLineColor: gridLineColor,
       );
   }
 

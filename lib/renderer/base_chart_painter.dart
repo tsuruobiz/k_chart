@@ -1,12 +1,15 @@
 import 'dart:math';
-export 'package:flutter/material.dart'
-    show Color, required, TextStyle, Rect, Canvas, Size, CustomPainter;
+
 import 'package:flutter/material.dart'
     show Color, required, TextStyle, Rect, Canvas, Size, CustomPainter;
 import 'package:k_chart/utils/date_format_util.dart';
+
+import '../chart_style.dart' show ChartStyle;
 import '../entity/k_line_entity.dart';
 import '../k_chart_widget.dart';
-import '../chart_style.dart' show ChartStyle;
+
+export 'package:flutter/material.dart'
+    show Color, required, TextStyle, Rect, Canvas, Size, CustomPainter;
 
 abstract class BaseChartPainter extends CustomPainter {
   static double maxScrollX = 0.0;
@@ -121,7 +124,8 @@ abstract class BaseChartPainter extends CustomPainter {
 
   void initRect(Size size) {
     double volHeight = volHidden != true ? mDisplayHeight * 0.2 : 0;
-    double secondaryHeight = secondaryState != SecondaryState.NONE ? mDisplayHeight * 0.2 : 0;
+    double secondaryHeight =
+        secondaryState != SecondaryState.NONE ? mDisplayHeight * 0.2 : 0;
 
     double mainHeight = mDisplayHeight;
     mainHeight -= volHeight;
@@ -136,7 +140,11 @@ abstract class BaseChartPainter extends CustomPainter {
 
     //secondaryState == SecondaryState.NONE隐藏副视图
     if (secondaryState != SecondaryState.NONE) {
-      mSecondaryRect = Rect.fromLTRB(0, mMainRect.bottom + volHeight + mChildPadding, mWidth, mMainRect.bottom + volHeight + secondaryHeight);
+      mSecondaryRect = Rect.fromLTRB(
+          0,
+          mMainRect.bottom + volHeight + mChildPadding,
+          mWidth,
+          mMainRect.bottom + volHeight + secondaryHeight);
     }
   }
 

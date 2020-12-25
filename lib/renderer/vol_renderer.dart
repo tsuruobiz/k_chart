@@ -10,6 +10,7 @@ class VolRenderer extends BaseChartRenderer<VolumeEntity> {
   double mVolWidth = ChartStyle.volWidth;
   Color upColor;
   Color dnColor;
+  Color gridLineColor;
 
   VolRenderer(
     Rect mainRect,
@@ -19,6 +20,7 @@ class VolRenderer extends BaseChartRenderer<VolumeEntity> {
     int fixedLength, {
     this.upColor = ChartColors.upColor,
     this.dnColor = ChartColors.dnColor,
+    this.gridLineColor,
   }) : super(
             chartRect: mainRect,
             maxValue: maxValue,
@@ -87,6 +89,9 @@ class VolRenderer extends BaseChartRenderer<VolumeEntity> {
 
   @override
   void drawGrid(Canvas canvas, int gridRows, int gridColumns) {
+    if (gridLineColor != null) {
+      gridPaint.color = gridLineColor;
+    }
     canvas.drawLine(Offset(0, chartRect.bottom),
         Offset(chartRect.width, chartRect.bottom), gridPaint);
     double columnSpace = chartRect.width / gridColumns;
