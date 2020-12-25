@@ -51,6 +51,7 @@ class KChartWidget extends StatefulWidget {
   final Color chartCrossLineColor;
   final Color maxAndMinLabelColor;
   final Color gridLineColor;
+  final List<String> infoNames;
 
   KChartWidget(
     this.datas, {
@@ -73,6 +74,7 @@ class KChartWidget extends StatefulWidget {
     this.chartCrossLineColor,
     this.maxAndMinLabelColor,
     this.gridLineColor,
+    this.infoNames,
   }) : assert(maDayList != null);
 
   @override
@@ -283,13 +285,17 @@ class _KChartWidgetState extends State<KChartWidget>
                     color: ChartColors.selectBorderColor, width: 0.5)),
             child: ListView.builder(
               padding: EdgeInsets.all(4),
-              itemCount: widget.language.infoNames.length,
+              itemCount: widget.infoNames == null
+                  ? widget.language.infoNames.length
+                  : widget.infoNames.length,
               itemExtent: 14.0,
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 return _buildItem(
                   infos[index],
-                  widget.language.infoNames[index],
+                  widget.infoNames == null
+                      ? widget.language.infoNames[index]
+                      : widget.infoNames[index],
                 );
               },
             ),
