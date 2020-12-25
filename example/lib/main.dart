@@ -107,10 +107,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 upColor: Colors.red,
                 dnColor: Colors.blueAccent,
                 bgColor: [
-                  Colors.white.withOpacity(.5),
-                  Colors.white.withOpacity(.5),
+                  Colors.white,
+                  Colors.white,
                 ],
                 chartCrossLineColor: ChartColors.selectFillColor,
+                maxAndMinLabelColor: ChartColors.selectFillColor,
               ),
             ),
             if (showLoading)

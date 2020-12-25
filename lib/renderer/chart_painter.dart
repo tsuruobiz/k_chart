@@ -21,6 +21,7 @@ class ChartPainter extends BaseChartPainter {
   Color volColor;
   Color macdColor, difColor, deaColor, jColor;
   Color chartCrossLineColor;
+  Color maxAndMinLabelColor;
   List<Color> bgColor;
   int fixedLength;
   List<int> maDayList;
@@ -42,6 +43,7 @@ class ChartPainter extends BaseChartPainter {
     this.upColor,
     this.dnColor,
     this.chartCrossLineColor,
+    this.maxAndMinLabelColor = Colors.white,
   })  : assert(bgColor == null || bgColor.length >= 2),
         super(
             datas: datas,
@@ -295,33 +297,35 @@ class ChartPainter extends BaseChartPainter {
   }
 
   @override
-  void drawMaxAndMin(Canvas canvas, {Color color = Colors.white}) {
+  void drawMaxAndMin(Canvas canvas) {
     if (isLine == true) return;
     //绘制最大值和最小值
     double x = translateXtoX(getX(mMainMinIndex));
     double y = getMainY(mMainLowMinValue);
-    // TODO(tsuruoka): min
     if (x < mWidth / 2) {
       //画右边
       TextPainter tp = getTextPainter(
-          "── " + mMainLowMinValue.toStringAsFixed(fixedLength), color);
+          "── " + mMainLowMinValue.toStringAsFixed(fixedLength),
+          maxAndMinLabelColor);
       tp.paint(canvas, Offset(x, y - tp.height / 2));
     } else {
       TextPainter tp = getTextPainter(
-          mMainLowMinValue.toStringAsFixed(fixedLength) + " ──", color);
+          mMainLowMinValue.toStringAsFixed(fixedLength) + " ──",
+          maxAndMinLabelColor);
       tp.paint(canvas, Offset(x - tp.width, y - tp.height / 2));
     }
     x = translateXtoX(getX(mMainMaxIndex));
     y = getMainY(mMainHighMaxValue);
-    // TODO(tsuruoka): max
     if (x < mWidth / 2) {
       //画右边
       TextPainter tp = getTextPainter(
-          "── " + mMainHighMaxValue.toStringAsFixed(fixedLength), color);
+          "── " + mMainHighMaxValue.toStringAsFixed(fixedLength),
+          maxAndMinLabelColor);
       tp.paint(canvas, Offset(x, y - tp.height / 2));
     } else {
       TextPainter tp = getTextPainter(
-          mMainHighMaxValue.toStringAsFixed(fixedLength) + " ──", color);
+          mMainHighMaxValue.toStringAsFixed(fixedLength) + " ──",
+          maxAndMinLabelColor);
       tp.paint(canvas, Offset(x - tp.width, y - tp.height / 2));
     }
   }
