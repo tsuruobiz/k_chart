@@ -52,17 +52,17 @@ class ChartColors {
 class ChartStyle {
   ChartStyle._();
 
-  //点与点的距离
-  static const double pointWidth = 11.0;
+  //点与点的距离(default: 11.0)
+  static const double pointWidth = 8.0;
 
-  //蜡烛宽度
-  static const double candleWidth = 8.5;
+  //蜡烛宽度(default: 8.5)
+  static const double candleWidth = 6;
 
   //蜡烛中间线的宽度
   static const double candleLineWidth = 1.5;
 
-  //vol柱子宽度
-  static const double volWidth = 8.5;
+  //vol柱子宽度(default: 8.5)
+  static const double volWidth = 6;
 
   //macd柱子宽度
   static const double macdWidth = 3.0;
