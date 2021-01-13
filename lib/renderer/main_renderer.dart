@@ -213,23 +213,23 @@ class MainRenderer extends BaseChartRenderer<CandleEntity> {
     } else if (close > open) {
       chartPaint.color = dnColor;
       // ベタ塗り
-      // canvas.drawRect(
-      //     Rect.fromLTRB(curX - r, open, curX + r, close), chartPaint);
-      // canvas.drawRect(
-      //     Rect.fromLTRB(curX - lineR, high, curX + lineR, low), chartPaint);
+      canvas.drawRect(
+          Rect.fromLTRB(curX - r, open, curX + r, close), chartPaint);
+      canvas.drawRect(
+          Rect.fromLTRB(curX - lineR, high, curX + lineR, low), chartPaint);
       // 枠線
-      Paint _chartPaint = Paint()
-        ..isAntiAlias = true
-        ..filterQuality = FilterQuality.high
-        ..strokeWidth = 1.0
-        ..style = PaintingStyle.stroke
-        ..color = dnColor;
-      canvas.drawRect(
-          Rect.fromLTRB(curX - r, close, curX + r, open), _chartPaint);
-      canvas.drawRect(
-          Rect.fromLTRB(curX - lineR, high, curX + lineR, open), chartPaint);
-      canvas.drawRect(
-          Rect.fromLTRB(curX - lineR, close, curX + lineR, low), chartPaint);
+      // Paint _chartPaint = Paint()
+      //   ..isAntiAlias = true
+      //   ..filterQuality = FilterQuality.high
+      //   ..strokeWidth = 1.0
+      //   ..style = PaintingStyle.stroke
+      //   ..color = dnColor;
+      // canvas.drawRect(
+      //     Rect.fromLTRB(curX - r, close, curX + r, open), _chartPaint);
+      // canvas.drawRect(
+      //     Rect.fromLTRB(curX - lineR, high, curX + lineR, open), chartPaint);
+      // canvas.drawRect(
+      //     Rect.fromLTRB(curX - lineR, close, curX + lineR, low), chartPaint);
     } else {
       chartPaint.color = upColor;
       canvas.drawLine(
