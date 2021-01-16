@@ -306,9 +306,9 @@ class _KChartWidgetState extends State<KChartWidget>
   Widget _buildItem(String info, String infoName) {
     Color color = Colors.white;
     if (info.startsWith("+"))
-      color = Colors.green;
+      color = widget.upColor ?? Colors.green;
     else if (info.startsWith("-"))
-      color = Colors.red;
+      color = widget.dnColor ?? Colors.red;
     else
       color = Colors.white;
     return Row(
