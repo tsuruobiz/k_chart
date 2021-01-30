@@ -372,4 +372,67 @@ class ChartPainter extends BaseChartPainter {
       dateFormat(DateTime.fromMillisecondsSinceEpoch(date), mFormats);
 
   double getMainY(double y) => mMainRenderer?.getY(y) ?? 0.0;
+
+  // 実際には上の方に並べた方が良さそう
+  // メソッド外でインスタンス化することでその回数を1回にしてパフォーマンス的に有利にしている
+  final _tradePointPaint = Paint()
+    ..color = Colors.blue
+    ..strokeWidth = 3
+    ..style = PaintingStyle.stroke;
+  final _tradeLinePaint = Paint()
+    ..color = Colors.blue
+    ..strokeWidth = 1;
+
+  // ちょうど良さそうなところに乗る点を適当に決め打ち(実際にはは外部から与えられる)
+  final entry = TradePoint(100, 2800);
+  final exit = TradePoint(143, 3100);
+
+  @override
+  void drawEntryExit(Canvas canvas) {
+    const pointSize = 20.0;
+
+    final entryOffset = Offset(
+      translateXtoX(getX(entry.index)),
+      getMainY(entry.value),
+    );
+
+    // △を上の点から時計回りに描画
+    canvas.drawPath(
+      Path()
+        ..moveTo(entryOffset.dx, entryOffset.dy - pointSize / 2)
+        ..relativeLineTo(pointSize / 2, pointSize)
+        ..relativeLineTo(-pointSize, 0)
+        ..close(),
+      _tradePointPaint,
+    );
+
+    final exitOffset = Offset(
+      translateXtoX(getX(exit.index)),
+      getMainY(exit.value),
+    );
+
+    // ▽を左上の点から時計回りに描画
+    canvas.drawPath(
+      Path()
+        ..moveTo(exitOffset.dx - pointSize / 2, exitOffset.dy - pointSize / 2)
+        ..relativeLineTo(pointSize, 0)
+        ..relativeLineTo(-pointSize / 2, pointSize)
+        ..close(),
+      _tradePointPaint,
+    );
+
+    // entryとexitの間の直線
+    canvas.drawLine(
+      entryOffset,
+      exitOffset,
+      _tradeLinePaint,
+    );
+  }
+}
+
+class TradePoint {
+  final int index;
+  final double value;
+
+  TradePoint(this.index, this.value);
 }
